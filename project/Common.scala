@@ -1,4 +1,5 @@
 import com.typesafe.sbt.SbtScalariform._
+import com.typesafe.sbteclipse.plugin.EclipsePlugin._
 import sbt._
 import sbt.Keys._
 import scalariform.formatter.preferences._
@@ -10,14 +11,14 @@ object Common {
     List(
       // Core settings
       organization := "com.typesafe.training",
-      version := "0.1.0",
+      version := "4.0.0",
       scalaVersion := Version.scala,
       crossScalaVersions := List(scalaVersion.value),
       scalacOptions ++= List(
         "-unchecked",
         "-deprecation",
         "-language:_",
-        "-target:jvm-1.7",
+        "-target:jvm-1.6",
         "-encoding", "UTF-8"
       ),
       unmanagedSourceDirectories in Compile := List((scalaSource in Compile).value),
@@ -27,6 +28,10 @@ object Common {
         .setPreference(AlignSingleLineCaseStatements, true)
         .setPreference(AlignSingleLineCaseStatements.MaxArrowIndent, 100)
         .setPreference(DoubleIndentClassDeclaration, true)
-        .setPreference(PreserveDanglingCloseParenthesis, true)
+        .setPreference(PreserveDanglingCloseParenthesis, true),
+      // Eclipse settings
+      EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource,
+      EclipseKeys.eclipseOutput := Some(".target"),
+      EclipseKeys.withSource := true
     )
 }
