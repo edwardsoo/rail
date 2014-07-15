@@ -12,6 +12,7 @@ import scala.io.StdIn
 import akka.actor.Actor
 import akka.actor.Props
 import akka.actor.ActorLogging
+import com.typesafe.config.ConfigFactory
 
 object HakkyHourApp {
 
@@ -54,8 +55,12 @@ class HakkyHourApp(system: ActorSystem) extends Terminal {
     system.awaitTermination()
   }
 
-  def createHakkyHour(): ActorRef =
-    system.actorOf(HakkyHour.props, "hakky-hour")
+  def createHakkyHour(): ActorRef = {
+    val config = ConfigFactory.load()
+    system.actorOf(
+      HakkyHour.props(config.getInt("hakky-hour.max-drink-count")),
+      "hakky-hour")
+  }
 
   @tailrec
   final def commandLoop(): Unit =
@@ -74,7 +79,7 @@ class HakkyHourApp(system: ActorSystem) extends Terminal {
     }
 
   def createGuest(count: Int, drink: Drink, isStubborn: Boolean, maxDrinkCount: Int): Unit =
-    (1 to count).foreach(_ => hakkyHour ! HakkyHour.CreateGuest(drink))
+    (1 to count).foreach(_ => hakkyHour ! HakkyHour.CreateGuest(drink, isStubborn))
 
   def getStatus(): Unit =
     () // TODO Ask HakkyHour for the status and log the result on completion

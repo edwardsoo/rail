@@ -36,7 +36,7 @@ class HakkyHourAppSpec extends BaseSpec("hakky-hour-app") {
           override def createHakkyHour() = testActor
         }
       app.createGuest(2, Drink.Akkarita, false, Int.MaxValue)
-      val createGuest = HakkyHour.CreateGuest(Drink.Akkarita)
+      val createGuest = HakkyHour.CreateGuest(Drink.Akkarita, false)
       receiveN(2) shouldEqual List.fill(2)(createGuest)
     }
   }

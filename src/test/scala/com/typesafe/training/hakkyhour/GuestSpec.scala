@@ -12,7 +12,7 @@ class GuestSpec extends BaseSpec("guest") {
 
   "Sending DrinkServed to Guest" should {
     "result in increasing the drinkCount and logging a status message at debug" in {
-      val guest = TestActorRef(new Guest(system.deadLetters, Drink.Akkarita, 100 milliseconds))
+      val guest = TestActorRef(new Guest(system.deadLetters, Drink.Akkarita, 100 milliseconds, false))
       EventFilter.info(pattern = ".*[Ee]njoy.*", occurrences = 1) intercept {
         guest ! Waiter.DrinkServed(Drink.Akkarita)
       }
@@ -39,8 +39,22 @@ class GuestSpec extends BaseSpec("guest") {
     }
   }
 
-  def createGuest() = {
-    val guest = system.actorOf(Guest.props(testActor, Drink.Akkarita, 100 milliseconds))
+  "Sending NoMoreDrinks to Guest" should {
+    "result in Guest stopping itself" in {
+      val guest = createGuest()
+      watch(guest)
+      guest ! HakkyHour.NoMoreDrinks
+      expectTerminated(guest)
+    }
+    "result in sending ServeDrink to Waiter for a stubborn Guest" in {
+      val guest = createGuest(true)
+      guest ! HakkyHour.NoMoreDrinks
+      expectMsg(Waiter.ServeDrink(Drink.Akkarita))
+    }
+  }
+
+  def createGuest(isStubborn: Boolean = false) = {
+    val guest = system.actorOf(Guest.props(testActor, Drink.Akkarita, 100 milliseconds, isStubborn))
     expectMsg(100 milliseconds, Waiter.ServeDrink(Drink.Akkarita)) // Creating Guest immediately sends Waiter.ServeDrink
     guest
   }
