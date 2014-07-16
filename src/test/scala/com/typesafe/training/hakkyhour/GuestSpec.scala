@@ -12,7 +12,7 @@ class GuestSpec extends BaseSpec("guest") {
 
   "Sending DrinkServed to Guest" should {
     "result in increasing the drinkCount and logging a status message at debug" in {
-      val guest = TestActorRef(new Guest(system.deadLetters, Drink.Akkarita, 100 milliseconds, false))
+      val guest = TestActorRef(new Guest(system.deadLetters, Drink.Akkarita, 100 milliseconds, false, Int.MaxValue))
       EventFilter.info(pattern = ".*[Ee]njoy.*", occurrences = 1) intercept {
         guest ! Waiter.DrinkServed(Drink.Akkarita)
       }
@@ -25,17 +25,24 @@ class GuestSpec extends BaseSpec("guest") {
         expectMsg(Waiter.ServeDrink(Drink.Akkarita))
       }
     }
+    "result in sending Complaint to Waiter for a wrong drink" in {
+      val guest = createGuest()
+      guest ! Waiter.DrinkServed(Drink.PinaScalada)
+      expectMsg(Waiter.Complaint(Drink.Akkarita))
+    }
   }
 
   "Sending DrinkFinished to Guest" should {
     "result in sending ServeDrink to Waiter" in {
-      val drinkFinished = { // This freaking crazy code is needed to access the private DrinkFinished case object
-        val drinkFinishedSymbol = ru.typeOf[Guest.type].decl(ru.TermName("DrinkFinished")).asModule
-        ru.runtimeMirror(getClass.getClassLoader).reflectModule(drinkFinishedSymbol).instance
-      }
       val guest = createGuest()
       guest ! drinkFinished
       expectMsg(Waiter.ServeDrink(Drink.Akkarita))
+    }
+    "result in a DrunkException if maxDrinkCount exceeded" in {
+      val guest = system.actorOf(Guest.props(system.deadLetters, Drink.Akkarita, 100 millis, false, -1))
+      EventFilter[Guest.DrunkException.type](occurrences = 1) intercept {
+        guest ! drinkFinished
+      }
     }
   }
 
@@ -53,8 +60,13 @@ class GuestSpec extends BaseSpec("guest") {
     }
   }
 
-  def createGuest(isStubborn: Boolean = false) = {
-    val guest = system.actorOf(Guest.props(testActor, Drink.Akkarita, 100 milliseconds, isStubborn))
+  lazy val drinkFinished = { // This freaking crazy code is needed to access the private DrinkFinished case object
+    val drinkFinishedSymbol = ru.typeOf[Guest.type].decl(ru.TermName("DrinkFinished")).asModule
+    ru.runtimeMirror(getClass.getClassLoader).reflectModule(drinkFinishedSymbol).instance
+  }
+
+  def createGuest(isStubborn: Boolean = false, maxDrinkCount: Int = Int.MaxValue) = {
+    val guest = system.actorOf(Guest.props(testActor, Drink.Akkarita, 100 milliseconds, isStubborn, maxDrinkCount))
     expectMsg(100 milliseconds, Waiter.ServeDrink(Drink.Akkarita)) // Creating Guest immediately sends Waiter.ServeDrink
     guest
   }

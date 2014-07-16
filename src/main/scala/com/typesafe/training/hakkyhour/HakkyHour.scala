@@ -11,9 +11,14 @@ import scala.concurrent.duration.FiniteDuration
 import scala.collection.mutable.{ Map, Set }
 import akka.actor.PoisonPill
 import akka.actor.Terminated
+import akka.actor.OneForOneStrategy
+import akka.actor.SupervisorStrategy._
+import akka.actor.SupervisorStrategy
+import akka.actor.OneForOneStrategy
+import akka.routing.FromConfig
 
 object HakkyHour {
-  case class CreateGuest(favoriteDrink: Drink, isStubborn: Boolean)
+  case class CreateGuest(favoriteDrink: Drink, isStubborn: Boolean, maxDrinkCount: Int)
   case class ApproveDrink(drink: Drink, guest: ActorRef)
   case object NoMoreDrinks
   def props(maxDrinkCount: Int): Props =
@@ -25,44 +30,61 @@ class HakkyHour(maxDrinkCount: Int) extends Actor with ActorLogging {
   log.debug(s"Hakky Hour is open!, Max ${maxDrinkCount} drinks per guest.")
 
   val guestDrinkCount: Map[ActorRef, Int] = Map.empty withDefaultValue 0
-  val enoughDrinkGuest: Set[ActorRef] = Set.empty
 
   val finishDuration =
     FiniteDuration(
       context.system.settings.config.getDuration("hakky-hour.guest.finish-drink-duration", MILLISECONDS),
       MILLISECONDS)
-  val prepareDuration =
+  val barkeeperPrepareDrinkDuration =
     FiniteDuration(
       context.system.settings.config.getDuration("hakky-hour.barkeeper.prepare-drink-duration", MILLISECONDS),
       MILLISECONDS)
+  val maxComplaint =
+    context.system.settings.config.getInt("hakky-hour.waiter.max-complaint-count")
+  val barkeeperAccuracy =
+    context.system.settings.config.getInt("hakky-hour.barkeeper.accuracy")
 
   val barkeeper = createBarkeeper()
-  val waiter = createWaiter(self)
+  val waiter = createWaiter()
+
+  override val supervisorStrategy: SupervisorStrategy = {
+    val decider: SupervisorStrategy.Decider = {
+      case Guest.DrunkException => Stop
+      case Waiter.FrustratedException(drink, guest) =>
+        barkeeper.tell(Barkeeper.PrepareDrink(drink, guest), sender)
+        Restart
+    }
+    OneForOneStrategy()(decider orElse super.supervisorStrategy.decider)
+  }
 
   override def receive: Receive = {
-    case HakkyHour.CreateGuest(drink, isStubborn) => {
-      val guest = context.actorOf(Guest.props(waiter, drink, finishDuration, isStubborn))
+    case HakkyHour.CreateGuest(drink, isStubborn, maxDrinkCount) =>
+      val guest = context.actorOf(Guest.props(waiter, drink, finishDuration, isStubborn, maxDrinkCount))
       context watch guest
-    }
     case HakkyHour.ApproveDrink(drink, guest) =>
-      if (guestDrinkCount(guest) >= maxDrinkCount && !enoughDrinkGuest.contains(guest)) {
-        log.info(s"Sorry, ${guest}, but we won't serve you more than ${maxDrinkCount} drinks!")
-        enoughDrinkGuest += guest
+      if (guestDrinkCount(guest) == maxDrinkCount) {
+        log.info(s"Sorry, ${guest.path.name}, but we won't serve you more than ${maxDrinkCount} drinks!")
+        guestDrinkCount(guest) += 1
         guest ! HakkyHour.NoMoreDrinks
-      } else if (enoughDrinkGuest contains guest) {
-        log.debug("Enough, get out of here!")
+      } else if (guestDrinkCount(guest) > maxDrinkCount) {
+        // log.debug("Enough, get out of here!")
         guest ! PoisonPill
       } else {
-        log.debug("drink approved")
+        // log.debug("drink approved")
         guestDrinkCount(guest) += 1
         barkeeper forward Barkeeper.PrepareDrink(drink, guest)
       }
-    case Terminated(guest) => log.info(s"Thanks, ${guest}, for being our guest!")
+    case Terminated(guest) =>
+      log.info(s"Thanks, ${guest.path.name}, for being our guest!")
+      guestDrinkCount - guest
   }
 
-  def createWaiter(hakkyHour: ActorRef): ActorRef =
-    context.actorOf(Waiter.props(hakkyHour), "waiter")
+  def createWaiter(): ActorRef =
+    context.actorOf(Waiter.props(self, barkeeper, maxComplaint), "waiter")
 
   def createBarkeeper(): ActorRef =
-    context.actorOf(Barkeeper.props(prepareDuration), "barkeeper")
+    //context.actorOf(Barkeeper.props(barkeeperPrepareDrinkDuration, barkeeperAccuracy), "barkeeper")
+    context.actorOf(
+      Barkeeper.props(barkeeperPrepareDrinkDuration, barkeeperAccuracy).withRouter(FromConfig()),
+      "barkeeper")
 }
