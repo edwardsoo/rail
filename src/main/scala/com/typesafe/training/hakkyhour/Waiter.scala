@@ -12,16 +12,16 @@ class Waiter(hakkyHour: ActorRef, barkeeper: ActorRef, maxComplaintCount: Int) e
 
   def receive = {
     case Waiter.ServeDrink(drink) =>
-      log.debug("drink needs approval")
+      // log.debug("drink needs approval")
       hakkyHour ! HakkyHour.ApproveDrink(drink, sender)
     case Barkeeper.DrinkPrepared(drink, guest) =>
-      log.debug("got the drink")
+      // log.debug("got the drink")
       guest ! Waiter.DrinkServed(drink)
     case Waiter.Complaint(drink) =>
       nrComplaint += 1
-      log.debug("got complaint...")
+      // log.debug("got complaint...")
       if (nrComplaint > maxComplaintCount) {
-        log.debug("I quit")
+        // log.debug("I quit")
         throw Waiter.FrustratedException(drink, sender)
       }
       barkeeper ! Barkeeper.PrepareDrink(drink, sender)

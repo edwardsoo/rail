@@ -13,7 +13,7 @@ class BarkeeperSpec extends BaseSpec("barkeeper") {
   "Sending PrepareDrink to Barkeeper" should {
     "result in sending a DrinkPrepared response after prepareDrinkDuration" in {
       val barkeeper = system.actorOf(Barkeeper.props(100 milliseconds, 100))
-      within(50 milliseconds, 1000 milliseconds) { // busy is very inaccurate, so we relax the timing constraints
+      within(50 milliseconds, 200 milliseconds) { // The timer is not extremely accurate, so we relax the timing constraints
         barkeeper ! PrepareDrink(Drink.Akkarita, system.deadLetters)
         expectMsg(DrinkPrepared(Drink.Akkarita, system.deadLetters))
       }

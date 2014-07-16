@@ -16,7 +16,6 @@ class GuestSpec extends BaseSpec("guest") {
       EventFilter.info(pattern = ".*[Ee]njoy.*", occurrences = 1) intercept {
         guest ! Waiter.DrinkServed(Drink.Akkarita)
       }
-      guest.underlyingActor.drinkCount shouldEqual 1
     }
     "result in sending ServeDrink to Waiter after finishDrinkDuration" in {
       val guest = createGuest()
@@ -29,20 +28,6 @@ class GuestSpec extends BaseSpec("guest") {
       val guest = createGuest()
       guest ! Waiter.DrinkServed(Drink.PinaScalada)
       expectMsg(Waiter.Complaint(Drink.Akkarita))
-    }
-  }
-
-  "Sending DrinkFinished to Guest" should {
-    "result in sending ServeDrink to Waiter" in {
-      val guest = createGuest()
-      guest ! drinkFinished
-      expectMsg(Waiter.ServeDrink(Drink.Akkarita))
-    }
-    "result in a DrunkException if maxDrinkCount exceeded" in {
-      val guest = system.actorOf(Guest.props(system.deadLetters, Drink.Akkarita, 100 millis, false, -1))
-      EventFilter[Guest.DrunkException.type](occurrences = 1) intercept {
-        guest ! drinkFinished
-      }
     }
   }
 

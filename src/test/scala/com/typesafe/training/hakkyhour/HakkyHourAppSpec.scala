@@ -4,9 +4,16 @@
 
 package com.typesafe.training.hakkyhour
 
+import akka.actor.ActorDSL._
+import akka.testkit.EventFilter
+import akka.util.Timeout
+import scala.concurrent.duration.DurationInt
+
 class HakkyHourAppSpec extends BaseSpec("hakky-hour-app") {
 
   import HakkyHourApp._
+
+  implicit val statusTimeout = 100 milliseconds: Timeout
 
   "Calling argsToOpts" should {
     "return the correct opts for the given args" in {
@@ -38,6 +45,28 @@ class HakkyHourAppSpec extends BaseSpec("hakky-hour-app") {
       app.createGuest(2, Drink.Akkarita, false, Int.MaxValue)
       val createGuest = HakkyHour.CreateGuest(Drink.Akkarita, false, Int.MaxValue)
       receiveN(2) shouldEqual List.fill(2)(createGuest)
+    }
+  }
+
+  "Calling handleStatusCommand" should {
+    "result in logging the AskTimeoutException at error for HakkyHour not responding" in {
+      val app =
+        new HakkyHourApp(system) {
+          override def createHakkyHour() = testActor
+        }
+      EventFilter.error(pattern = ".*AskTimeoutException.*") intercept {
+        app.getStatus()
+      }
+    }
+    "result in logging the status at info" in {
+      val app =
+        new HakkyHourApp(system) {
+          override def createHakkyHour() =
+            actor(new Act { become { case HakkyHour.GetStatus => sender() ! HakkyHour.Status(42) } })
+        }
+      EventFilter.info(pattern = ".*42.*") intercept {
+        app.getStatus()
+      }
     }
   }
 }

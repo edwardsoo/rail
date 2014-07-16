@@ -30,7 +30,7 @@ class Guest(
   var drinkCount = 0
 
   override def preStart = {
-    log.info("hey give me a drink")
+    // log.info("hey give me a drink")
     waiter ! Waiter.ServeDrink(favoriteDrink)
   }
 
@@ -52,7 +52,7 @@ class Guest(
       context.system.scheduler.scheduleOnce(finishDrinkDuration, self, Guest.DrinkFinished)
     }
     case Waiter.DrinkServed(drink) => {
-      log.debug("that's not what I ordered")
+      // log.debug("that's not what I ordered")
       waiter ! Waiter.Complaint(favoriteDrink)
     }
     case Guest.DrinkFinished => {

@@ -1,5 +1,5 @@
 /*
- * Copyright �� 2014 Typesafe, Inc. All rights reserved.
+ * Copyright 2014 Typesafe, Inc. All rights reserved.
  */
 
 package com.typesafe.training.hakkyhour
@@ -12,7 +12,12 @@ import scala.io.StdIn
 import akka.actor.Actor
 import akka.actor.Props
 import akka.actor.ActorLogging
-import com.typesafe.config.ConfigFactory
+import akka.pattern.ask
+import scala.concurrent.duration._
+import akka.pattern.AskTimeoutException
+import scala.util.Success
+import scala.util.Failure
+import akka.util.Timeout
 
 object HakkyHourApp {
 
@@ -56,9 +61,8 @@ class HakkyHourApp(system: ActorSystem) extends Terminal {
   }
 
   def createHakkyHour(): ActorRef = {
-    val config = ConfigFactory.load()
     system.actorOf(
-      HakkyHour.props(config.getInt("hakky-hour.max-drink-count")),
+      HakkyHour.props(Settings(system).maxDrinkCount),
       "hakky-hour")
   }
 
@@ -81,6 +85,13 @@ class HakkyHourApp(system: ActorSystem) extends Terminal {
   def createGuest(count: Int, drink: Drink, isStubborn: Boolean, maxDrinkCount: Int): Unit =
     (1 to count).foreach(_ => hakkyHour ! HakkyHour.CreateGuest(drink, isStubborn, maxDrinkCount))
 
-  def getStatus(): Unit =
-    () // TODO Ask HakkyHour for the status and log the result on completion
+  def getStatus(): Unit = {
+    import scala.concurrent.ExecutionContext.Implicits.global
+
+    val f = hakkyHour.ask(HakkyHour.Status)(Settings(system).statusTimeout).mapTo[HakkyHour.Status]
+    f.onComplete {
+      case Success(HakkyHour.Status(num)) => log.info(s"number of guests is $num")
+      case Failure(e)                     => log.error(s"GetStatus error: $e")
+    }
+  }
 }

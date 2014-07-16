@@ -12,10 +12,10 @@ import scala.concurrent.duration.DurationInt
 object HakkyHourSpec {
 
   trait BarkeeperNoRouter {
-    this: HakkyHour =>
+    this: HakkyHour with SettingsActor =>
 
     override def createBarkeeper() =
-      context.actorOf(Barkeeper.props(barkeeperPrepareDrinkDuration, barkeeperAccuracy), "barkeeper")
+      context.actorOf(Barkeeper.props(settings.barkeeperPrepareDrinkDuration, settings.barkeeperAccuracy), "barkeeper")
   }
 }
 
@@ -118,6 +118,14 @@ class HakkyHourSpec extends BaseSpec("hakky-hour") {
       val waiter = expectActor("/user/resend-prepare-drink/waiter")
       waiter ! "blow-up"
       expectMsg(Barkeeper.PrepareDrink(Drink.Akkarita, system.deadLetters))
+    }
+  }
+
+  "Sending GetStatus to HakkyHour" should {
+    "result in a Status response" in {
+      val hakkyHour = actor(new HakkyHour(Int.MaxValue) with BarkeeperNoRouter)
+      hakkyHour ! HakkyHour.GetStatus
+      expectMsg(HakkyHour.Status(0))
     }
   }
 }
