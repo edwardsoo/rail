@@ -27,7 +27,6 @@ object Barkeeper {
 
 class Barkeeper(prepareDrinkDuration: FiniteDuration, accuracy: Int)
     extends Actor with FSM[Barkeeper.State, Barkeeper.Data] with ActorLogging with Stash {
-  import context.dispatcher
   import Barkeeper._
 
   val rand = new Random

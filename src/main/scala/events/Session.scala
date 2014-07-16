@@ -21,20 +21,20 @@ case class Session(duration: Int) {
 }
 
 object Session {
-  val urls      = distributedList(Map("/" -> 4, "/about" -> 2, "/store" -> 2, "/blog" -> 1, "/help" -> 1))
-  val browsers  = distributedList(Map("chrome" -> 5, "firefox" -> 3, "ie" -> 2))
+  val urls = distributedList(Map("/" -> 4, "/about" -> 2, "/store" -> 2, "/blog" -> 1, "/help" -> 1))
+  val browsers = distributedList(Map("chrome" -> 5, "firefox" -> 3, "ie" -> 2))
   val referrers = distributedList(Map("google" -> 8, "twitter" -> 1, "facebook" -> 2))
 
-  def randomUrl      = urls(Random.nextInt(urls.length))
-  def randomBrowser  = browsers(Random.nextInt(browsers.length))
+  def randomUrl = urls(Random.nextInt(urls.length))
+  def randomBrowser = browsers(Random.nextInt(browsers.length))
   def randomReferrer =
-    if(Random.nextInt(100) < 98)
+    if (Random.nextInt(100) < 98)
       referrers(Random.nextInt(referrers.length))
     else
       Random.nextString(10)
 
   // Lazy way of creating a list with a skewed distribution - repeat elements
-  def distributedList[A](map: Map[A,Int]): List[A] = {
+  def distributedList[A](map: Map[A, Int]): List[A] = {
     for {
       (value, prob) <- map.toList
       i <- 1 to prob

@@ -6,11 +6,9 @@ package com.typesafe.training.hakkyhour
 
 import akka.actor.{ Actor, ActorLogging, Props }
 import akka.actor.ActorRef
-import scala.concurrent.duration.FiniteDuration
-import scala.collection.mutable.{ Map, Set }
+import scala.collection.mutable.Map
 import akka.actor.PoisonPill
 import akka.actor.Terminated
-import akka.actor.OneForOneStrategy
 import akka.actor.SupervisorStrategy._
 import akka.actor.SupervisorStrategy
 import akka.actor.OneForOneStrategy

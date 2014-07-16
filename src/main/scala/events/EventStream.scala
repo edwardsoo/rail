@@ -9,7 +9,7 @@ class EventStream(concurrentUsers: Int) {
 
   // Create initial sessions
   var sessions: Map[Long, List[Request]] = (
-    for{
+    for {
       i <- (1 to concurrentUsers).toList
       session = new Session(randomVisitTime)
     } yield (session.id, session.requests)
@@ -21,16 +21,16 @@ class EventStream(concurrentUsers: Int) {
   def tick: List[Request] = {
 
     // Take the head of each list of requests on the map
-    val currentRequests = sessions.map{ case (id,requests) => requests.head}
+    val currentRequests = sessions.map { case (id, requests) => requests.head }
 
     // Remove the head of each list of requests on the map, filter out those with size 1 (sessions that are ending on this tick)
     sessions =
       for {
-        (id,requests) <- sessions if(requests.size > 1)
-      } yield (id,requests.tail)
+        (id, requests) <- sessions if (requests.size > 1)
+      } yield (id, requests.tail)
 
     // Decide if we should start a new session
-    if(concurrentUsers > sessions.size && Random.nextBoolean()){
+    if (concurrentUsers > sessions.size && Random.nextBoolean()) {
       val session = new Session(randomVisitTime)
       sessions += session.id -> session.requests
     }
@@ -40,15 +40,15 @@ class EventStream(concurrentUsers: Int) {
 }
 
 object EventStream {
-  val longVisit  = 300 // secs
+  val longVisit = 300 // secs
   val shortVisit = 10 // sec
 
   // For more interesting behaviour, we insert some deviations into our numbers
-  def deviate(n: Int):Int = (n * (1.75 - Random.nextDouble())).toInt
+  def deviate(n: Int): Int = (n * (1.75 - Random.nextDouble())).toInt
 
   // 80% of users stay for a long visit, the rest bounce off
   def randomVisitTime =
-    if(Random.nextInt(100) < 80) deviate(longVisit)
+    if (Random.nextInt(100) < 80) deviate(longVisit)
     else deviate(shortVisit)
 
 }

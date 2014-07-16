@@ -2,7 +2,6 @@ package com.typesafe.training.hakkyhour
 
 import akka.actor.ExtensionKey
 import akka.actor.Extension
-import akka.actor.ActorSystem
 import java.util.concurrent.TimeUnit._
 import scala.concurrent.duration.FiniteDuration
 import akka.actor.Actor
