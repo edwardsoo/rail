@@ -6,9 +6,9 @@ import akka.actor.Props
 
 //@Ignore
 class SessionManagerSpec extends BaseSpec("events") {
-  "Creating SessionManager" should {
+  "SessionManager" should {
 
-    "Schedule Tick messages to be sent" in {
+    "Schedules Tick messages to be sent" in {
 
       system.actorOf(Props(new SessionManager {
         override def receive = {
@@ -18,5 +18,12 @@ class SessionManagerSpec extends BaseSpec("events") {
 
       expectMsg(Tick)
     }
+
+    "remove the session from the session map when an inactive message is received" in {
+      val sessionManager = system.actorOf(SessionManager.props())
+      sessionManager
+    }
+
   }
+
 }

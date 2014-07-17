@@ -1,23 +1,20 @@
 package events
 
-import akka.actor.Actor
-import akka.actor.ActorLogging
-import akka.actor.ActorRef
+import akka.actor._
 import scala.concurrent.duration._
-import akka.actor.Props
-import akka.actor.SupervisorStrategy
-import akka.actor.OneForOneStrategy
 import akka.actor.SupervisorStrategy.Restart
 import scala.collection.mutable
+import scala.Some
+import akka.actor.OneForOneStrategy
 
 
 object SessionManager {
   case object Tick
 
-  def props(sessionMap: mutable.Map[Session, ActorRef] = mutable.Map.empty) = Props(classOf[SessionManager], sessionMap)
+  def props() = Props(classOf[SessionManager])
 }
 
-class SessionManager(sessionMap: mutable.Map[Session, ActorRef] = mutable.Map.empty) extends Actor with ActorLogging {
+class SessionManager extends Actor with ActorLogging {
   import context.dispatcher
   import SessionManager._
 
@@ -30,6 +27,7 @@ class SessionManager(sessionMap: mutable.Map[Session, ActorRef] = mutable.Map.em
     OneForOneStrategy(5)(decider orElse super.supervisorStrategy.decider)
   }
 
+  val sessionMap = mutable.Map[Session, ActorRef]() = mutable.Map.empty
   val stream = new EventStream(5)
   val email = context.actorOf(Email.props, "email")
   val stats = context.actorOf(Stats.props, "stats")
