@@ -22,7 +22,7 @@ class SessionManager extends Actor with ActorLogging {
   val stream = new EventStream(5)
   val stats = context.actorOf(Stats.props, "stats")
 
-  //log.info("session-manager started")
+  log.info("session-manager started")
   println("session-manager started")
 
   override def preStart =

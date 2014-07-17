@@ -40,8 +40,8 @@ class EventStream(concurrentUsers: Int) {
 }
 
 object EventStream {
-  val longVisit = 300 // secs
-  val shortVisit = 10 // sec
+  val longVisit = 5 // secs
+  val shortVisit = 1 // sec
 
   // For more interesting behaviour, we insert some deviations into our numbers
   def deviate(n: Int): Int = (n * (1.75 - Random.nextDouble())).toInt

@@ -28,6 +28,11 @@
         <appender-ref ref="file"/>
     </logger>
 
+    <logger name="events" level="debug" additivity="false">
+        <appender-ref ref="console"/>
+        <appender-ref ref="session-file"/>
+    </logger>
+
     <logger name="akka.actor.RepointableActorRef" level="debug" additivity="false">
         <appender-ref ref="console"/>
         <appender-ref ref="file"/>
