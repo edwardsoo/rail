@@ -23,6 +23,13 @@
         </encoder>
     </appender>
 
+    <appender name="email-file" class="ch.qos.logback.core.FileAppender">
+        <file>${email.log-file:-email.log}</file>
+        <encoder>
+            <pattern>%date{HH:mm:ss} %-5level [%X{akkaSource}] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <logger name="com.typesafe.training.hakkyhour" level="debug" additivity="false">
         <appender-ref ref="console"/>
         <appender-ref ref="file"/>
@@ -31,6 +38,11 @@
     <logger name="events" level="debug" additivity="false">
         <appender-ref ref="console"/>
         <appender-ref ref="session-file"/>
+    </logger>
+
+    <logger name="events.Email" level="debug" additivity="false">
+        <appender-ref ref="console"/>
+        <appender-ref ref="email-file"/>
     </logger>
 
     <logger name="akka.actor.RepointableActorRef" level="debug" additivity="false">

@@ -45,9 +45,10 @@ class Stats extends Actor with ActorLogging {
   def top5Referrer: Seq[Tuple2[String, Int]] = top5(referrerCount)
 
   def receive = {
+    case _ => throw new Exception
     case UserTracker.History(history) =>
       log.info("got history")
-      
+
       val session = history.head.session
       browserCount(session.browser) += 1
       referrerCount(session.referrer) += 1
