@@ -1,0 +1,132 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Akkarita	src/main/scala/com/typesafe/training/hakkyhour/Drink.scala	/^  case object Akkarita extends Drink$/;"	c
+BaseSpec	src/test/scala/com/typesafe/training/hakkyhour/BaseSpec.scala	/^abstract class BaseSpec(name: String) extends TestKit(ActorSystem(s"$name-spec")) with ImplicitSender$/;"	c
+Command	src/main/scala/com/typesafe/training/hakkyhour/Terminal.scala	/^  object Command {$/;"	c
+Command	src/main/scala/com/typesafe/training/hakkyhour/Terminal.scala	/^  sealed trait Command$/;"	t
+CommandParser	src/main/scala/com/typesafe/training/hakkyhour/Terminal.scala	/^  object CommandParser extends RegexParsers {$/;"	c
+Common	project/Common.scala	/^object Common {$/;"	c
+CreateGuest	src/main/scala/com/typesafe/training/hakkyhour/HakkyHour.scala	/^  case class CreateGuest(favoriteDrink: Drink)$/;"	c
+CreateGuest	src/main/scala/com/typesafe/training/hakkyhour/Terminal.scala	/^    case class CreateGuest(count: Int, drink: Drink, isStubborn: Boolean, maxDrinkCount: Int) extends Command$/;"	c
+Dependencies	project/Dependencies.scala	/^object Dependencies {$/;"	c
+Drink	src/main/scala/com/typesafe/training/hakkyhour/Drink.scala	/^object Drink {$/;"	c
+Drink	src/main/scala/com/typesafe/training/hakkyhour/Drink.scala	/^sealed trait Drink$/;"	t
+DrinkFinished	src/main/scala/com/typesafe/training/hakkyhour/Guest.scala	/^  private object DrinkFinished$/;"	c
+DrinkServed	src/main/scala/com/typesafe/training/hakkyhour/Waiter.scala	/^  case class DrinkServed(drink: Drink)$/;"	c
+DrinkSpec	src/test/scala/com/typesafe/training/hakkyhour/DrinkSpec.scala	/^class DrinkSpec extends WordSpec with Matchers with Inspectors {$/;"	c
+GetStatus	src/main/scala/com/typesafe/training/hakkyhour/Terminal.scala	/^    case object GetStatus extends Command$/;"	c
+Guest	src/main/scala/com/typesafe/training/hakkyhour/Guest.scala	/^class Guest($/;"	c
+Guest	src/main/scala/com/typesafe/training/hakkyhour/Guest.scala	/^object Guest {$/;"	c
+GuestSpec	src/test/scala/com/typesafe/training/hakkyhour/GuestSpec.scala	/^class GuestSpec extends BaseSpec("guest") {$/;"	c
+HakkyHour	src/main/scala/com/typesafe/training/hakkyhour/HakkyHour.scala	/^class HakkyHour extends Actor with ActorLogging {$/;"	c
+HakkyHour	src/main/scala/com/typesafe/training/hakkyhour/HakkyHour.scala	/^object HakkyHour {$/;"	c
+HakkyHourApp	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^class HakkyHourApp(system: ActorSystem) extends Terminal {$/;"	c
+HakkyHourApp	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^object HakkyHourApp {$/;"	c
+HakkyHourAppSpec	src/test/scala/com/typesafe/training/hakkyhour/HakkyHourAppSpec.scala	/^class HakkyHourAppSpec extends BaseSpec("hakky-hour-app") {$/;"	c
+HakkyHourSpec	src/test/scala/com/typesafe/training/hakkyhour/HakkyHourSpec.scala	/^class HakkyHourSpec extends BaseSpec("hakky-hour") {$/;"	c
+IndexedSeq	src/main/scala/com/typesafe/training/hakkyhour/package.scala	/^  type IndexedSeq[+A] = scala.collection.immutable.IndexedSeq[A]$/;"	T
+Iterable	src/main/scala/com/typesafe/training/hakkyhour/package.scala	/^  type Iterable[+A] = scala.collection.immutable.Iterable[A]$/;"	T
+Library	project/Dependencies.scala	/^object Library {$/;"	c
+MaiPlay	src/main/scala/com/typesafe/training/hakkyhour/Drink.scala	/^  case object MaiPlay extends Drink$/;"	c
+Opt	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^  val Opt = """(\\S+)=(\\S+)""".r$/;"	l
+PinaScalada	src/main/scala/com/typesafe/training/hakkyhour/Drink.scala	/^  case object PinaScalada extends Drink$/;"	c
+Quit	src/main/scala/com/typesafe/training/hakkyhour/Terminal.scala	/^    case object Quit extends Command$/;"	c
+Seq	src/main/scala/com/typesafe/training/hakkyhour/package.scala	/^  type Seq[+A] = scala.collection.immutable.Seq[A]$/;"	T
+ServeDrink	src/main/scala/com/typesafe/training/hakkyhour/Waiter.scala	/^  case class ServeDrink(drink: Drink)$/;"	c
+Terminal	src/main/scala/com/typesafe/training/hakkyhour/Terminal.scala	/^trait Terminal {$/;"	t
+TerminalSpec	src/test/scala/com/typesafe/training/hakkyhour/TerminalSpec.scala	/^class TerminalSpec extends WordSpec with Matchers with Inspectors with Terminal {$/;"	c
+Traversable	src/main/scala/com/typesafe/training/hakkyhour/package.scala	/^  type Traversable[+A] = scala.collection.immutable.Traversable[A]$/;"	T
+Unknown	src/main/scala/com/typesafe/training/hakkyhour/Terminal.scala	/^    case class Unknown(command: String) extends Command$/;"	c
+Version	project/Dependencies.scala	/^object Version {$/;"	c
+Waiter	src/main/scala/com/typesafe/training/hakkyhour/Waiter.scala	/^class Waiter extends Actor with ActorLogging {$/;"	c
+Waiter	src/main/scala/com/typesafe/training/hakkyhour/Waiter.scala	/^object Waiter {$/;"	c
+WaiterSpec	src/test/scala/com/typesafe/training/hakkyhour/WaiterSpec.scala	/^class WaiterSpec extends BaseSpec("waiter") {$/;"	c
+acc	src/main/scala/com/typesafe/training/hakkyhour/package.scala	/^    var acc = BigDecimal(0.0)$/;"	l
+actor	src/test/scala/com/typesafe/training/hakkyhour/BaseSpec.scala	/^      var actor = null: ActorRef$/;"	l
+akka	project/Dependencies.scala	/^  val akka         = "2.3.4"$/;"	l
+akkaActor	project/Dependencies.scala	/^  val akkaActor      = "com.typesafe.akka"      %% "akka-actor"               % Version.akka$/;"	l
+akkaSlf4j	project/Dependencies.scala	/^  val akkaSlf4j      = "com.typesafe.akka"      %% "akka-slf4j"               % Version.akka$/;"	l
+akkaTestkit	project/Dependencies.scala	/^  val akkaTestkit    = "com.typesafe.akka"      %% "akka-testkit"             % Version.akka$/;"	l
+anyOther	src/main/scala/com/typesafe/training/hakkyhour/Drink.scala	/^  def anyOther(drink: Drink): Drink = {$/;"	m
+app	src/test/scala/com/typesafe/training/hakkyhour/HakkyHourAppSpec.scala	/^      val app =$/;"	l
+apply	src/main/scala/com/typesafe/training/hakkyhour/Drink.scala	/^  def apply(code: String): Drink =$/;"	m
+apply	src/main/scala/com/typesafe/training/hakkyhour/Terminal.scala	/^    def apply(command: String): Command =$/;"	m
+applySystemProperties	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^  def applySystemProperties(opts: Map[String, String]): Unit =$/;"	m
+argsToOpts	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^  def argsToOpts(args: Seq[String]): Map[String, String] =$/;"	m
+busy	src/main/scala/com/typesafe/training/hakkyhour/package.scala	/^  def busy(duration: FiniteDuration): Unit =$/;"	m
+busyScalingFactor	src/main/scala/com/typesafe/training/hakkyhour/package.scala	/^  val busyScalingFactor: Int =$/;"	l
+com.typesafe.training	src/main/scala/com/typesafe/training/hakkyhour/package.scala	/^package com.typesafe.training$/;"	p
+com.typesafe.training.hakkyhour	src/main/scala/com/typesafe/training/hakkyhour/Drink.scala	/^package com.typesafe.training.hakkyhour$/;"	p
+com.typesafe.training.hakkyhour	src/main/scala/com/typesafe/training/hakkyhour/Guest.scala	/^package com.typesafe.training.hakkyhour$/;"	p
+com.typesafe.training.hakkyhour	src/main/scala/com/typesafe/training/hakkyhour/HakkyHour.scala	/^package com.typesafe.training.hakkyhour$/;"	p
+com.typesafe.training.hakkyhour	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^package com.typesafe.training.hakkyhour$/;"	p
+com.typesafe.training.hakkyhour	src/main/scala/com/typesafe/training/hakkyhour/Terminal.scala	/^package com.typesafe.training.hakkyhour$/;"	p
+com.typesafe.training.hakkyhour	src/main/scala/com/typesafe/training/hakkyhour/Waiter.scala	/^package com.typesafe.training.hakkyhour$/;"	p
+com.typesafe.training.hakkyhour	src/test/scala/com/typesafe/training/hakkyhour/BaseSpec.scala	/^package com.typesafe.training.hakkyhour$/;"	p
+com.typesafe.training.hakkyhour	src/test/scala/com/typesafe/training/hakkyhour/DrinkSpec.scala	/^package com.typesafe.training.hakkyhour$/;"	p
+com.typesafe.training.hakkyhour	src/test/scala/com/typesafe/training/hakkyhour/GuestSpec.scala	/^package com.typesafe.training.hakkyhour$/;"	p
+com.typesafe.training.hakkyhour	src/test/scala/com/typesafe/training/hakkyhour/HakkyHourAppSpec.scala	/^package com.typesafe.training.hakkyhour$/;"	p
+com.typesafe.training.hakkyhour	src/test/scala/com/typesafe/training/hakkyhour/HakkyHourSpec.scala	/^package com.typesafe.training.hakkyhour$/;"	p
+com.typesafe.training.hakkyhour	src/test/scala/com/typesafe/training/hakkyhour/TerminalSpec.scala	/^package com.typesafe.training.hakkyhour$/;"	p
+com.typesafe.training.hakkyhour	src/test/scala/com/typesafe/training/hakkyhour/WaiterSpec.scala	/^package com.typesafe.training.hakkyhour$/;"	p
+commandLoop	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^  final def commandLoop(): Unit =$/;"	m
+createGuest	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^  def createGuest(count: Int, drink: Drink, isStubborn: Boolean, maxDrinkCount: Int): Unit =$/;"	m
+createGuest	src/main/scala/com/typesafe/training/hakkyhour/Terminal.scala	/^    def createGuest: Parser[Command.CreateGuest] =$/;"	m
+createGuest	src/test/scala/com/typesafe/training/hakkyhour/GuestSpec.scala	/^  def createGuest() = {$/;"	m
+createGuest	src/test/scala/com/typesafe/training/hakkyhour/HakkyHourAppSpec.scala	/^      val createGuest = HakkyHour.CreateGuest(Drink.Akkarita)$/;"	l
+createHakkyHour	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^  def createHakkyHour(): ActorRef =$/;"	m
+createWaiter	src/main/scala/com/typesafe/training/hakkyhour/HakkyHour.scala	/^  def createWaiter(): ActorRef =$/;"	m
+drink	src/main/scala/com/typesafe/training/hakkyhour/Terminal.scala	/^    def drink: Parser[Drink] =$/;"	m
+drinkCount	src/main/scala/com/typesafe/training/hakkyhour/Guest.scala	/^  var drinkCount = 0$/;"	l
+drinkFinished	src/test/scala/com/typesafe/training/hakkyhour/GuestSpec.scala	/^      val drinkFinished = { \/\/ This freaking crazy code is needed to access the private DrinkFinished case object$/;"	l
+drinkFinishedSymbol	src/test/scala/com/typesafe/training/hakkyhour/GuestSpec.scala	/^        val drinkFinishedSymbol = ru.typeOf[Guest.type].decl(ru.TermName("DrinkFinished")).asModule$/;"	l
+drinks	src/main/scala/com/typesafe/training/hakkyhour/Drink.scala	/^  val drinks: Set[Drink] =$/;"	l
+duration	src/main/scala/com/typesafe/training/hakkyhour/HakkyHour.scala	/^  val duration =$/;"	l
+duration	src/main/scala/com/typesafe/training/hakkyhour/package.scala	/^    val duration = 2.seconds$/;"	l
+endTime	src/main/scala/com/typesafe/training/hakkyhour/package.scala	/^    val endTime = System.currentTimeMillis()$/;"	l
+expectActor	src/test/scala/com/typesafe/training/hakkyhour/BaseSpec.scala	/^  def expectActor(path: String, max: FiniteDuration = 5 seconds): ActorRef =$/;"	m
+gauge	src/main/scala/com/typesafe/training/hakkyhour/package.scala	/^  def gauge(): Int = {$/;"	m
+gaugedFactor	src/main/scala/com/typesafe/training/hakkyhour/package.scala	/^    val gaugedFactor = busyScalingFactor.toDouble \/ (endTime - startTime) * duration.toMillis$/;"	l
+getStatus	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^  def getStatus(): Unit =$/;"	m
+getStatus	src/main/scala/com/typesafe/training/hakkyhour/Terminal.scala	/^    def getStatus: Parser[Command.GetStatus.type] =$/;"	m
+gregoryLeibnitz	src/main/scala/com/typesafe/training/hakkyhour/package.scala	/^    def gregoryLeibnitz(n: Long) = 4.0 * (1 - (n % 2) * 2) \/ (n * 2 + 1)$/;"	m
+guest	src/test/scala/com/typesafe/training/hakkyhour/GuestSpec.scala	/^      val guest = TestActorRef(new Guest(system.deadLetters, Drink.Akkarita, 100 milliseconds))$/;"	l
+guest	src/test/scala/com/typesafe/training/hakkyhour/GuestSpec.scala	/^      val guest = createGuest()$/;"	l
+guest	src/test/scala/com/typesafe/training/hakkyhour/GuestSpec.scala	/^    val guest = system.actorOf(Guest.props(testActor, Drink.Akkarita, 100 milliseconds))$/;"	l
+hakkyHour	project/Dependencies.scala	/^  val hakkyHour = List($/;"	l
+hakkyHour	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^  val hakkyHour = createHakkyHour()$/;"	l
+hakkyHour	src/test/scala/com/typesafe/training/hakkyhour/HakkyHourSpec.scala	/^      val hakkyHour = system.actorOf(HakkyHour.props, "create-guest")$/;"	l
+hakkyHourApp	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^    val hakkyHourApp = new HakkyHourApp(system)$/;"	l
+int	src/main/scala/com/typesafe/training/hakkyhour/Terminal.scala	/^    def int: Parser[Int] =$/;"	m
+log	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^  val log = Logging(system, getClass.getName)$/;"	l
+logback	project/Dependencies.scala	/^  val logback      = "1.1.2"$/;"	l
+logbackClassic	project/Dependencies.scala	/^  val logbackClassic = "ch.qos.logback"         %  "logback-classic"          % Version.logback$/;"	l
+main	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^  def main(args: Array[String]): Unit = {$/;"	m
+n	src/main/scala/com/typesafe/training/hakkyhour/package.scala	/^    var n = 0$/;"	l
+name	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^    val name = opts.getOrElse("name", "hakky-hour")$/;"	l
+object	src/main/scala/com/typesafe/training/hakkyhour/package.scala	/^package object hakkyhour {$/;"	p
+opts	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^    val opts = argsToOpts(args.toList)$/;"	l
+others	src/main/scala/com/typesafe/training/hakkyhour/Drink.scala	/^    val others = drinks - drink$/;"	l
+parseAsCommand	src/main/scala/com/typesafe/training/hakkyhour/Terminal.scala	/^    def parseAsCommand(s: String): Command =$/;"	m
+parser	src/main/scala/com/typesafe/training/hakkyhour/Terminal.scala	/^  val parser: CommandParser.Parser[Command] =$/;"	l
+pi	src/main/scala/com/typesafe/training/hakkyhour/package.scala	/^  private def pi(m: Long) = {$/;"	m
+props	src/main/scala/com/typesafe/training/hakkyhour/Guest.scala	/^  def props(waiter: ActorRef, favoriteDrink: Drink, finishDrinkDuration: FiniteDuration): Props =$/;"	m
+props	src/main/scala/com/typesafe/training/hakkyhour/HakkyHour.scala	/^  def props: Props =$/;"	m
+props	src/main/scala/com/typesafe/training/hakkyhour/Waiter.scala	/^  def props = Props[Waiter]$/;"	m
+quit	src/main/scala/com/typesafe/training/hakkyhour/Terminal.scala	/^    def quit: Parser[Command.Quit.type] =$/;"	m
+receive	src/main/scala/com/typesafe/training/hakkyhour/Waiter.scala	/^  def receive = {$/;"	m
+run	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^  def run(): Unit = {$/;"	m
+scala	project/Dependencies.scala	/^  val scala        = "2.11.1"$/;"	l
+scalaParsers	project/Dependencies.scala	/^  val scalaParsers   = "org.scala-lang.modules" %% "scala-parser-combinators" % Version.scalaParsers$/;"	l
+scalaParsers	project/Dependencies.scala	/^  val scalaParsers = "1.0.1"$/;"	l
+scalaTest	project/Dependencies.scala	/^  val scalaTest      = "org.scalatest"          %% "scalatest"                % Version.scalaTest$/;"	l
+scalaTest	project/Dependencies.scala	/^  val scalaTest    = "2.2.0"$/;"	l
+settings	project/Common.scala	/^  val settings =$/;"	l
+startTime	src/main/scala/com/typesafe/training/hakkyhour/package.scala	/^    val startTime = System.currentTimeMillis()$/;"	l
+system	src/main/scala/com/typesafe/training/hakkyhour/HakkyHourApp.scala	/^    val system = ActorSystem(s"$name-system")$/;"	l
+waiter	src/main/scala/com/typesafe/training/hakkyhour/HakkyHour.scala	/^  val waiter = createWaiter$/;"	l
+waiter	src/test/scala/com/typesafe/training/hakkyhour/WaiterSpec.scala	/^      val waiter = system.actorOf(Waiter.props)$/;"	l

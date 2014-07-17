@@ -4,14 +4,19 @@
 
 package com.typesafe.training.hakkyhour
 
-import akka.actor.{ Actor, ActorLogging, Props }
-import akka.actor.ActorRef
 import scala.collection.mutable.Map
-import akka.actor.PoisonPill
-import akka.actor.Terminated
-import akka.actor.SupervisorStrategy._
-import akka.actor.SupervisorStrategy
+
+import akka.actor.Actor
+import akka.actor.ActorLogging
+import akka.actor.ActorRef
 import akka.actor.OneForOneStrategy
+import akka.actor.PoisonPill
+import akka.actor.Props
+import akka.actor.SupervisorStrategy
+import akka.actor.SupervisorStrategy.Restart
+import akka.actor.SupervisorStrategy.Stop
+import akka.actor.Terminated
+import akka.actor.actorRef2Scala
 import akka.routing.FromConfig
 
 object HakkyHour {

@@ -16,6 +16,13 @@
         </encoder>
     </appender>
 
+    <appender name="session-file" class="ch.qos.logback.core.FileAppender">
+        <file>${session-system.log-file:-session-system.log}</file>
+        <encoder>
+            <pattern>%date{HH:mm:ss} %-5level [%X{akkaSource}] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <logger name="com.typesafe.training.hakkyhour" level="debug" additivity="false">
         <appender-ref ref="console"/>
         <appender-ref ref="file"/>

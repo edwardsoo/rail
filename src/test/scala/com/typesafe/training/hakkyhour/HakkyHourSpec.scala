@@ -8,6 +8,7 @@ import akka.actor.{ ActorRef, ActorIdentity, Identify }
 import akka.actor.ActorDSL._
 import akka.testkit.EventFilter
 import scala.concurrent.duration.DurationInt
+import com.typesafe.training.hakkyhour.SettingsActor
 
 object HakkyHourSpec {
 

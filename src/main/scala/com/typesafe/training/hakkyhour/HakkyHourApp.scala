@@ -18,6 +18,7 @@ import akka.pattern.AskTimeoutException
 import scala.util.Success
 import scala.util.Failure
 import akka.util.Timeout
+import com.typesafe.training.hakkyhour.Settings
 
 object HakkyHourApp {
 
