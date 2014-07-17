@@ -19,9 +19,13 @@ class SessionManager extends Actor with ActorLogging {
   import SessionManager._
 
   override val supervisorStrategy: SupervisorStrategy = {
+    var nrRestarts = 0
     val decider: SupervisorStrategy.Decider = {
       case e: Exception =>
-        email ! Email.Send(e.toString)
+        nrRestarts += 1
+        if (nrRestarts > 5) {
+          email ! Email.Send(s"Stat actor has crashed $nrRestarts times")
+        }
         Restart
     }
     OneForOneStrategy(5)(decider orElse super.supervisorStrategy.decider)
