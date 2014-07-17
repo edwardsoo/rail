@@ -11,5 +11,5 @@ object EventStreamSample extends App {
 
   val system = ActorSystem("session-system")
   val log = Logging(system, getClass.getName)
-  val sessionMananger = system.actorOf(SessionManager.props, "session-manager")
+  val sessionMananger = system.actorOf(SessionManager.props(), "session-manager")
 }

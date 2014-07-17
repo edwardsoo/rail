@@ -26,7 +26,6 @@ class UserTracker(session: Session, stats: ActorRef) extends Actor with ActorLog
   def receive = {
     case TrackRequest(req) =>
       log.info(s"received $req")
-      println(s"received $req")
       history = history :+ req
       timer.cancel
       timer = context.system.scheduler.scheduleOnce(settings.timerInterval, self, Inactive(session))
