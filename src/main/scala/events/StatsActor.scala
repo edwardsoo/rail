@@ -37,13 +37,17 @@ class Stats extends Actor with ActorLogging {
     visitTimes.reduce(_ + _).toDouble / visitTimes.size
 
   def top5[T](counter: Map[T, Int]): Seq[Tuple2[T, Int]] =
-    counter.toList.sortBy { case (_, count) => count }.take(5)
+    counter.toList.sortBy { case (_, count) => count }.reverse.take(5)
 
   def top5Landing: Seq[Tuple2[String, Int]] = top5(landingCount)
   def top5Sinking: Seq[Tuple2[String, Int]] = top5(sinkingCount)
   def top5browser: Seq[Tuple2[String, Int]] = top5(browserCount)
   def top5Referrer: Seq[Tuple2[String, Int]] = top5(referrerCount)
 
+  // Transform UNIX time in ms to minute of day
+  def minuteOfDay(timestamp: Long): Int =
+    ((timestamp % (60*60*24*1000)) / 60*1000).toInt
+  
   def receive = {
     case UserTracker.History(history) =>
       log.info("got history")
@@ -51,7 +55,7 @@ class Stats extends Actor with ActorLogging {
       val session = history.head.session
       browserCount(session.browser) += 1
       referrerCount(session.referrer) += 1
-      history.map(req => minuteCount((req.timestamp % 86400000).toInt) += 1)
+      history.map(req => minuteCount(minuteOfDay(req.timestamp)) += 1)
       landingCount(history.head.url) += 1
       sinkingCount(history.last.url) += 1
       visitTimes = visitTimes :+ session.duration

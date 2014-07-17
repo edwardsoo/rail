@@ -7,7 +7,6 @@ import scala.Some
 import akka.actor.OneForOneStrategy
 import scala.collection.mutable
 
-
 object SessionManager {
   case object Tick
 
