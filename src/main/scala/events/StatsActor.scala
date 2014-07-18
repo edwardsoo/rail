@@ -16,7 +16,7 @@ class Stats extends Actor with ActorLogging {
 
   val browserCount: Map[String, Int] = Map.empty withDefaultValue 0
   val referrerCount: Map[String, Int] = Map.empty withDefaultValue 0
-  val minuteCount: Map[Int, Int] = Map.empty withDefaultValue 0
+  val minuteCount: Array[Int] = Array.fill(60 * 24)(0)
   val landingCount: Map[String, Int] = Map.empty withDefaultValue 0
   val sinkingCount: Map[String, Int] = Map.empty withDefaultValue 0
   val visitTimes: Buffer[Int] = Buffer.empty
@@ -30,13 +30,10 @@ class Stats extends Actor with ActorLogging {
     "visitTimes" -> visitTimes,
     "pageViews" -> pageViews)
 
-  def busiestMinuteOfDay: Option[Tuple2[Int, Int]] =
-    minuteCount.foldLeft[Option[Tuple2[Int, Int]]](None) {
-      case (Some(acc), elem) =>
-        val (busiest, max) = acc
-        val (minute, count) = elem
-        if (count > max) Some(elem) else Some(acc)
-      case (None, elem) => Some(elem)
+  def busiestMinuteOfDay: Tuple2[Int, Int] =
+    minuteCount.zipWithIndex.foldLeft[Tuple2[Int, Int]]((0, 0)) {
+      case ((busiest, max), (count, index)) =>
+        if (count > max) (index, count) else (busiest, max)
     }
 
   def averagePageViews: Map[String, Double] =
