@@ -15,6 +15,9 @@ object Library {
   val logbackClassic = "ch.qos.logback"         %  "logback-classic"          % Version.logback
   val scalaParsers   = "org.scala-lang.modules" %% "scala-parser-combinators" % Version.scalaParsers
   val scalaTest      = "org.scalatest"          %% "scalatest"                % Version.scalaTest
+  val json4sNative   = "org.json4s"             %% "json4s-native"            % "3.2.10"
+
+
 }
 
 object Dependencies {
@@ -27,6 +30,7 @@ object Dependencies {
     logbackClassic,
     scalaParsers,
     akkaTestkit % "test",
-    scalaTest   % "test"
+    scalaTest   % "test",
+    json4sNative
   )
 }

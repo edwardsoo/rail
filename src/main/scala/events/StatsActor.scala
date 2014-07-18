@@ -4,8 +4,6 @@ import akka.actor.ActorLogging
 import akka.actor.Actor
 import akka.actor.Props
 import scala.collection.mutable.Map
-import java.util.Date
-import java.util.Calendar
 
 object Stats {
   def props = Props(classOf[Stats])
