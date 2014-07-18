@@ -3,10 +3,14 @@ package events
 import akka.actor.ActorLogging
 import akka.actor.Actor
 import akka.actor.Props
-import scala.collection.mutable.Map
 import java.util.Date
 import java.util.Calendar
+import scala.collection.mutable.Map
 import scala.collection.mutable.Buffer
+import java.io.PrintWriter
+import org.json4s._
+import org.json4s.native.Serialization
+import org.json4s.native.Serialization.{ read, write }
 
 object Stats {
   def props = Props(classOf[Stats])
@@ -20,15 +24,7 @@ class Stats extends Actor with ActorLogging {
   val landingCount: Map[String, Int] = Map.empty withDefaultValue 0
   val sinkingCount: Map[String, Int] = Map.empty withDefaultValue 0
   val visitTimes: Buffer[Int] = Buffer.empty
-  val pageViews: Map[String, Seq[Int]] = Map.empty withDefaultValue Seq()
-
-  val jsonMap = Map("browserCount" -> browserCount,
-    "referrerCount" -> referrerCount,
-    "minuteCount" -> minuteCount,
-    "landingCount" -> landingCount,
-    "sinkingCount" -> sinkingCount,
-    "visitTimes" -> visitTimes,
-    "pageViews" -> pageViews)
+  val pageViews: Map[String, Buffer[Int]] = Map.empty withDefaultValue Buffer()
 
   def busiestMinuteOfDay: Tuple2[Int, Int] =
     minuteCount.zipWithIndex.foldLeft[Tuple2[Int, Int]]((0, 0)) {
@@ -52,7 +48,20 @@ class Stats extends Actor with ActorLogging {
 
   // Transform UNIX time in ms to minute of day
   def minuteOfDay(timestamp: Long): Int =
-    ((timestamp % (60 * 60 * 24 * 1000)) / 60 * 1000).toInt
+    (((timestamp / 1000) % (60 * 60 * 24)) / 60).toInt
+
+  def persistStats = {
+    implicit val formats = Serialization.formats(NoTypeHints)
+    val p = new PrintWriter("stats")
+    p.write(write(browserCount))
+    p.write(write(referrerCount))
+    p.write(write(minuteCount))
+    p.write(write(landingCount))
+    p.write(write(sinkingCount))
+    p.write(write(visitTimes))
+    p.write(write(pageViews))
+    p.close
+  }
 
   def receive = {
     case UserTracker.History(history) =>
@@ -68,7 +77,9 @@ class Stats extends Actor with ActorLogging {
       history.map(req => req.url).groupBy(url => url).map {
         case (url, ls) => (url, ls.size)
       }.foreach {
-        case (url, view) => pageViews(url) = pageViews(url) :+ view
+        case (url, view) => pageViews(url) :+= view
       }
+
+      persistStats
   }
 }
