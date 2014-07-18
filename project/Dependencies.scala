@@ -16,6 +16,7 @@ object Library {
   val scalaParsers   = "org.scala-lang.modules" %% "scala-parser-combinators" % Version.scalaParsers
   val scalaTest      = "org.scalatest"          %% "scalatest"                % Version.scalaTest
   val json4sNative   = "org.json4s"             %% "json4s-native"            % "3.2.10"
+  val json4sJackson  = "org.json4s"             %% "json4s-jackson"           % "3.2.10"
 
 
 }
@@ -31,6 +32,7 @@ object Dependencies {
     scalaParsers,
     akkaTestkit % "test",
     scalaTest   % "test",
-    json4sNative
+    json4sNative,
+    json4sJackson
   )
 }
